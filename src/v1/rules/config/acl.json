@@ -1,0 +1,10 @@
+{
+    "title": "Rules Module",
+    "controller": "RulesController",
+    "sort_order": 1000,
+    "children": {
+        "findAll": {
+            "title": "Lấy danh sách rules"
+        }
+    }
+}
