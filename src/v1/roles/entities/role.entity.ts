@@ -1,9 +1,12 @@
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 import { Rule } from '@v1/rules/entities';
@@ -25,4 +28,13 @@ export class Role extends BaseEntity {
 
   @Column({ default: 0 })
   public sortOrder: number;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  public createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  public updatedAt: Date;
+
+  @DeleteDateColumn({ type: 'timestamp' })
+  public deletedAt: Date;
 }

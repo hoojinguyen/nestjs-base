@@ -1,4 +1,12 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 import { Role } from '@v1/roles/entities';
 
@@ -27,4 +35,13 @@ export class Rule {
     default: PermissionRule.DENY,
   })
   public permission: PermissionRule;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  public createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  public updatedAt: Date;
+
+  @DeleteDateColumn({ type: 'timestamp' })
+  public deletedAt: Date;
 }
