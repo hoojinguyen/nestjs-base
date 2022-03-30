@@ -1,9 +1,9 @@
 import {
+  registerDecorator,
   ValidationArguments,
   ValidationOptions,
   ValidatorConstraint,
   ValidatorConstraintInterface,
-  registerDecorator,
 } from 'class-validator';
 
 export function Match(property: string, validationOptions?: ValidationOptions) {

@@ -1,3 +1,5 @@
+import { Rule } from '@v1/rules/entities';
+import { User } from '@v1/users/entities';
 import {
   BaseEntity,
   Column,
@@ -8,9 +10,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
-import { Rule } from '@v1/rules/entities';
-import { User } from '@v1/users/entities';
 
 @Entity({ name: 'roles' })
 export class Role extends BaseEntity {

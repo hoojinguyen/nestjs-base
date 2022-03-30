@@ -1,11 +1,10 @@
+import { Expose } from 'class-transformer';
 import {
   CreateDateColumn,
   DeleteDateColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
-import { Expose } from 'class-transformer';
 
 export class BaseEntity {
   @Expose()

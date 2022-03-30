@@ -1,27 +1,23 @@
 [
-    {
-        "name": "default",
-        "type": "mysql",
-        "host": "14.241.225.1",
-        "port": 33070,
-        "username": "root",
-        "password": "01Brickmate23!@",
-        "database": "api-core",
-        "entities": [
-            "dist/**/*.entity{ .ts,.js}"
-        ],
-        "synchronize": false,
-        "migrations": [
-            "database/migrations/*{.ts,.js}"
-        ],
-        "migrationsTableName": "migrations_history",
-        "migrationsRun": true,
-        "logging": false,
-        "ssl": true,
-        "extra": {
-            "ssl": {
-                "rejectUnauthorized": false
-            }
-        }
+  {
+    "name": "default",
+    "type": "mysql",
+    "host": "14.241.225.1",
+    "port": 33070,
+    "username": "root",
+    "password": "01Brickmate23!@",
+    "database": "api-core",
+    "entities": ["dist/**/*.entity{ .ts,.js}"],
+    "synchronize": false,
+    "migrations": ["database/migrations/*{.ts,.js}"],
+    "migrationsTableName": "migrations_history",
+    "migrationsRun": true,
+    "logging": false,
+    "ssl": true,
+    "extra": {
+      "ssl": {
+        "rejectUnauthorized": false
+      }
     }
+  }
 ]

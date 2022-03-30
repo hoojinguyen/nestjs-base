@@ -1,3 +1,4 @@
+import { User } from '@v1/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
@@ -7,8 +8,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
-import { User } from '@v1/users/entities/user.entity';
 
 @Entity({ name: 'refresh_token' })
 export class RefreshToken {

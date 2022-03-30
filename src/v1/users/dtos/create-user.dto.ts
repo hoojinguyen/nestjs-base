@@ -1,6 +1,5 @@
-import { IsBoolean, IsEmail, IsNotEmpty } from 'class-validator';
-
 import { IsExist } from '@utils/validate-decorators';
+import { IsBoolean, IsEmail, IsNotEmpty } from 'class-validator';
 import { User } from '../entities';
 
 export class CreateUserDto {

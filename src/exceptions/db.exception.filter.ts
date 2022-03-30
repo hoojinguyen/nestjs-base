@@ -5,7 +5,6 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-
 import { QueryFailedError } from 'typeorm';
 
 @Catch(QueryFailedError)

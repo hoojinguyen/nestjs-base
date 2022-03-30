@@ -1,6 +1,6 @@
+import { Module } from '@nestjs/common';
 import { AppV1Route } from './app-v1.route';
 import { AuthModule } from './auth/auth.module';
-import { Module } from '@nestjs/common';
 import { RolesModule } from './roles/roles.module';
 import { RulesModule } from './rules/rules.module';
 import { UsersModule } from './users/users.module';

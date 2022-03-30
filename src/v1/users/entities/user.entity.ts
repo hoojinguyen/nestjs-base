@@ -1,3 +1,6 @@
+import { RefreshToken } from '@v1/auth/entities/refresh-token.entity';
+import { Role } from '@v1/roles/entities/role.entity';
+import { Exclude } from 'class-transformer';
 import {
   BaseEntity,
   Column,
@@ -9,10 +12,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
-import { Exclude } from 'class-transformer';
-import { RefreshToken } from '@v1/auth/entities/refresh-token.entity';
-import { Role } from '@v1/roles/entities/role.entity';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {

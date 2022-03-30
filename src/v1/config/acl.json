@@ -1,5 +1,5 @@
 {
-    "title": "API version 1",
-    "controller": "v1",
-    "sort_order": 1000
+  "title": "API version 1",
+  "controller": "v1",
+  "sort_order": 1000
 }

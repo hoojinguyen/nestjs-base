@@ -1,5 +1,5 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PasswordService, TokenService } from '@/src/utils/services';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from '@v1/users/dtos/create-user.dto';
 import { User } from '@v1/users/entities/user.entity';
 import { UsersService } from '@v1/users/services';

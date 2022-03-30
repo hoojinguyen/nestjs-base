@@ -1,3 +1,4 @@
+import { Role } from '@v1/roles/entities';
 import {
   Column,
   CreateDateColumn,
@@ -7,8 +8,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
-import { Role } from '@v1/roles/entities';
 
 export enum PermissionRule {
   ALLOW = 'allow',

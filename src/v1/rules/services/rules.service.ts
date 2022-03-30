@@ -1,9 +1,8 @@
+import { BaseService } from '@base/base.service';
+import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import * as glob from 'glob';
-
-import { BaseService } from '@base/base.service';
 import { FilterOperator } from 'nestjs-paginate';
-import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class RulesService extends BaseService {

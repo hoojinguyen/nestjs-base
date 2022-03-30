@@ -1,5 +1,4 @@
 import { Controller, Get } from '@nestjs/common';
-
 import { RulesService } from '../services';
 
 @Controller()

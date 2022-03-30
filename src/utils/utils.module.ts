@@ -1,15 +1,14 @@
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { Global, Module } from '@nestjs/common';
-import { PasswordService, TokenService } from './services';
-
 import { HttpModule } from '@nestjs/axios';
+import { Global, Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { RefreshToken } from '@v1/auth/entities';
+import { PasswordService, TokenService } from './services';
 // -----------------------------------------------------------------------------------------------------
 // Validate decorators uses dependency injection MUST BE ADDED TO providers
 // -----------------------------------------------------------------------------------------------------
 import { IsExistConstraint } from './validate-decorators';
-import { JwtModule } from '@nestjs/jwt';
-import { RefreshToken } from '@v1/auth/entities';
-import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Global()
 @Module({
