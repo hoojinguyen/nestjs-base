@@ -1,9 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PasswordService, TokenService } from '@/src/utils/services';
-
-import { ExceptionsResponse } from '../exceptions';
+import { CreateUserDto } from '@v1/users/dtos/create-user.dto';
 import { User } from '@v1/users/entities/user.entity';
 import { UsersService } from '@v1/users/services';
+import { ExceptionsResponse } from '../exceptions';
 
 @Injectable()
 export class AuthService {
@@ -25,6 +25,10 @@ export class AuthService {
     throw new UnauthorizedException(
       ExceptionsResponse.incorrectEmailOrPassword,
     );
+  }
+
+  public async register(dto: CreateUserDto): Promise<User> {
+    return this.usersService.create(dto);
   }
 
   public async login(user: User) {

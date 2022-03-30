@@ -1,0 +1,22 @@
+{
+    "title": "Users Module",
+    "controller": "UsersController",
+    "sort_order": 1000,
+    "children": {
+        "findAll": {
+            "title": "Lấy danh sách users"
+        },
+        "findOne": {
+            "title": "Lấy chi tiết user"
+        },
+        "create": {
+            "title": "Tạo user"
+        },
+        "update": {
+            "title": "Cập nhật user"
+        },
+        "delete": {
+            "title": "Xoá user"
+        }
+    }
+}

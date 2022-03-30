@@ -49,7 +49,7 @@ export class User extends BaseEntity {
   @OneToMany(() => RefreshToken, (refreshToken) => refreshToken.user)
   public refreshTokens: RefreshToken[];
 
-  @Column()
+  @Column({ default: 1 })
   public roleId: number;
 
   @ManyToOne(() => Role, (role) => role.users)
