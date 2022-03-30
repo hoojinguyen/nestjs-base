@@ -23,7 +23,7 @@ async function bootstrap() {
   // Dependency injection for class-validator
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
-  await app.listen(3000);
+  await app.listen(+process.env.PORT || 3001);
 }
 
 bootstrap();

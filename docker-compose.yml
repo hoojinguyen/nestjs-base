@@ -1,0 +1,42 @@
+version: "3.7"
+
+services:
+  mysql:
+    platform: linux/x86_64
+    image: mysql:8.0.26
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: nestjsbase
+      MYSQL_DATABASE: nestjsbase
+    ports:
+      - '3306:3306'
+    volumes:
+      - './mysqldata:/var/lib/mysql'
+    networks:
+      - nestjsbase
+
+  nestjs-base-api:
+    platform: linux/x86_64
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nestjs-base-api
+    restart: always
+    env_file: .env
+    ports:
+      - "3001:3001"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - mysql
+    networks:
+      - nestjsbase
+
+volumes:
+  mysqldata:
+
+networks:
+  nestjsbase:
+    driver: bridge
+

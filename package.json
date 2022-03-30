@@ -36,6 +36,7 @@
     "is-empty-obj": "^1.0.12",
     "mysql2": "^2.3.3",
     "nestjs-paginate": "^2.5.4",
+    "passport": "^0.5.2",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
