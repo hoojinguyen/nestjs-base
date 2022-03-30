@@ -1,4 +1,5 @@
 import { registerAs } from '@nestjs/config';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 export default registerAs('database', () => ({
   name: 'default',
@@ -10,6 +11,7 @@ export default registerAs('database', () => ({
   database: process.env.DB_DATABASE,
   entities: ['dist/**/*.entity{ .ts,.js}'],
   synchronize: true,
+  namingStrategy: new SnakeNamingStrategy(),
   migrations: ['database/migrations/*{.ts,.js}'],
   migrationsTableName: 'migrations_history',
   migrationsRun: true,
