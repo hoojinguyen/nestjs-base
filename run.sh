@@ -10,6 +10,9 @@ elif [[ $opt = "up-dev-build" ]]; then
   docker-compose -f docker-compose.dev.yml up --force-recreate -d
 elif [[ $opt = "up-debug" ]]; then
     docker-compose -f docker-compose.debug.yml up -d
+elif [[ $opt = "up-debug-build" ]]; then
+  docker-compose -f docker-compose.debug.yml build
+  docker-compose -f docker-compose.debug.yml up --force-recreate -d
 elif [[ $opt = "down-debug" ]]; then
   docker-compose -f docker-compose.debug.yml down
 elif [[ $opt = "up-pro" ]]; then

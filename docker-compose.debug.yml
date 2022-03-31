@@ -9,7 +9,7 @@ services:
       MYSQL_ROOT_PASSWORD: nestjsbase
       MYSQL_DATABASE: nestjsbase
     ports:
-      - '3306:3306'
+      - 3306:3306
     volumes:
       - './mysqldata:/var/lib/mysql'
     networks:
@@ -22,9 +22,10 @@ services:
       dockerfile: Dockerfile.debug
     image: nestjs-base-api
     restart: always
-    env_file: .dev.env
+    env_file: .env.development
     ports:
-      - "3001:3001"
+      - 3001:3001
+      - 9229:9229 # debugging port
     volumes:
       - .:/app
       - /app/node_modules
@@ -39,4 +40,3 @@ volumes:
 networks:
   nestjsbase:
     driver: bridge
-
