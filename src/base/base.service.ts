@@ -1,3 +1,4 @@
+import { WinstonProvider } from '@utils/providers';
 import { instanceToPlain } from 'class-transformer';
 import * as isEmptyObject from 'is-empty-obj';
 import { paginate, Paginated, PaginateQuery } from 'nestjs-paginate';
@@ -9,6 +10,7 @@ export abstract class BaseService {
   protected sortableColumns: any = ['id'];
   protected defaultSortBy: any = [['id', 'DESC']];
   protected abstract filterableColumns: any;
+  protected logger = new WinstonProvider();
 
   constructor(private readonly repository: Repository<any>) {
     // empty

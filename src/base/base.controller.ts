@@ -1,11 +1,14 @@
 import { Delete, Get, Param, UseGuards } from '@nestjs/common';
+import { WinstonProvider } from '@utils/providers';
+import { JwtAuthGuard } from '@v1/auth/guards/jwt-auth.guard';
 import { Paginate, Paginated, PaginateQuery } from 'nestjs-paginate';
 import { BaseEntity } from 'typeorm';
-import { JwtAuthGuard } from '../v1/auth/guards/jwt-auth.guard';
 import { BaseService } from './base.service';
 
 @UseGuards(JwtAuthGuard)
 export class BaseController {
+  protected logger = new WinstonProvider();
+
   constructor(private readonly service: BaseService) {
     // empty
   }
