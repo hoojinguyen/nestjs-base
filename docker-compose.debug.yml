@@ -1,4 +1,4 @@
-version: "3.7"
+version: '3.7'
 
 services:
   mysql:
@@ -31,6 +31,24 @@ services:
       - /app/node_modules
     depends_on:
       - mysql
+    networks:
+      - nestjsbase
+
+  redis:
+    image: 'redis:alpine'
+    ports:
+      - '6379:6379'
+    networks:
+      - nestjsbase
+ 
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - '8081:8081'
+    depends_on:
+      - redis
     networks:
       - nestjsbase
 

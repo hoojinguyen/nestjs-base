@@ -1,5 +1,6 @@
-import { WinstonProvider } from '@utils/providers';
+import { CacheService } from '@utils/services';
 import { instanceToPlain } from 'class-transformer';
+import { createHash } from 'crypto';
 import * as isEmptyObject from 'is-empty-obj';
 import { paginate, Paginated, PaginateQuery } from 'nestjs-paginate';
 import { DeleteResult, Repository } from 'typeorm';
@@ -10,16 +11,39 @@ export abstract class BaseService {
   protected sortableColumns: any = ['id'];
   protected defaultSortBy: any = [['id', 'DESC']];
   protected abstract filterableColumns: any;
-  protected logger = new WinstonProvider();
 
   constructor(private readonly repository: Repository<any>) {
     // empty
   }
 
-  public findAll(
+  public async findAllWithCache(
     query: PaginateQuery,
-    options = null,
+    cache: CacheService,
   ): Promise<Paginated<any>> {
+    const keyObj = {
+      ...query,
+      model: this.repository.metadata.name,
+      defaultSortBy: this.defaultSortBy,
+      sortableColumns: this.sortableColumns,
+      filterableColumns: this.filterableColumns,
+    };
+
+    const keyStr = JSON.stringify(keyObj);
+    const keyHash = createHash('md5').update(keyStr).digest('hex');
+
+    let result = await cache.getObject(keyHash);
+
+    if (isEmptyObject(result)) {
+      result = await this.findAll(query);
+      if (result.data.length) {
+        cache.setObject(keyHash, result);
+      }
+    }
+
+    return result;
+  }
+
+  public async findAll(query: PaginateQuery): Promise<Paginated<any>> {
     const queryBuilder = this.prepareQuery(query);
 
     return paginate(query, queryBuilder, {

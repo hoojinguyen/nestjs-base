@@ -1,11 +1,12 @@
 import { HttpModule } from '@nestjs/axios';
-import { Global, Module } from '@nestjs/common';
+import { CacheModule, Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RefreshToken } from '@v1/auth/entities';
+import * as redisStore from 'cache-manager-redis-store';
 import { WinstonProvider } from './providers';
-import { PasswordService, TokenService } from './services';
+import { CacheService, PasswordService, TokenService } from './services';
 // -----------------------------------------------------------------------------------------------------
 // Validate decorators uses dependency injection MUST BE ADDED TO providers
 // -----------------------------------------------------------------------------------------------------
@@ -26,13 +27,30 @@ import { IsExistConstraint } from './validate-decorators';
       }),
       inject: [ConfigService],
     }),
+    CacheModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        store: redisStore,
+        host: configService.get<string>('cache.host'),
+        port: configService.get<string>('cache.port'),
+        ttl: configService.get<number>('cache.ttl'),
+      }),
+      inject: [ConfigService],
+    }),
   ],
   providers: [
     PasswordService,
     TokenService,
+    CacheService,
     IsExistConstraint,
     WinstonProvider,
   ],
-  exports: [PasswordService, TokenService, HttpModule, WinstonProvider],
+  exports: [
+    PasswordService,
+    TokenService,
+    CacheService,
+    HttpModule,
+    WinstonProvider,
+  ],
 })
 export class UtilsModule {}

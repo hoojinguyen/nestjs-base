@@ -14,7 +14,7 @@ async function bootstrap() {
     credentials: true,
   });
 
-  app.useLogger(logger);
+  // app.useLogger(logger);
   app.setGlobalPrefix('/api');
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalFilters(new DbExceptionFilter());

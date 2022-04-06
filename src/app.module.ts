@@ -1,3 +1,4 @@
+import cacheConfig from '@/config/cache.config';
 import databaseConfig from '@/config/database.config';
 import jwtConfig from '@/config/jwt.config';
 import mailConfig from '@/config/mail.config';
@@ -17,7 +18,7 @@ import { AppV1Module } from './v1/app-v1.module';
     ConfigModule.forRoot({
       isGlobal: true,
       cache: true,
-      load: [jwtConfig, databaseConfig, mailConfig, webConfig],
+      load: [jwtConfig, databaseConfig, mailConfig, webConfig, cacheConfig],
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],

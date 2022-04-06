@@ -1,7 +1,7 @@
 import { BaseService } from '@base/base.service';
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PasswordService } from '@utils/services';
+import { CacheService, PasswordService } from '@utils/services';
 import { instanceToPlain } from 'class-transformer';
 import { FilterOperator } from 'nestjs-paginate';
 import { Repository } from 'typeorm';
@@ -21,12 +21,13 @@ export class UsersService extends BaseService {
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
     private readonly passwordService: PasswordService,
+    private readonly cacheService: CacheService,
   ) {
     super(usersRepository);
   }
 
   public async create(createUserDto: CreateUserDto): Promise<User> {
-    const user = await this.usersRepository.create({
+    const user = this.usersRepository.create({
       ...createUserDto,
       password: await this.passwordService.hashPassword(createUserDto.password),
     });

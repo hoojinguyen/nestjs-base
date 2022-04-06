@@ -1,4 +1,5 @@
 import { BaseController } from '@/src/base/base.controller';
+import { CacheService } from '@/src/utils/services';
 import {
   Body,
   Controller,
@@ -10,7 +11,9 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { RolesGuard } from '@v1/roles/guards';
+// import { Paginate, Paginated, PaginateQuery } from 'nestjs-paginate';
 import { CreateUserDto, UpdateUserDto } from '../dtos';
+// import { User } from '../entities';
 import { InstanceToJsonInterceptor } from '../interceptors';
 import { UsersService } from '../services';
 
@@ -18,9 +21,20 @@ import { UsersService } from '../services';
 @UseGuards(RolesGuard)
 @UseInterceptors(InstanceToJsonInterceptor)
 export class UsersController extends BaseController {
-  constructor(private readonly userService: UsersService) {
+  constructor(
+    private readonly userService: UsersService,
+    private readonly cacheService: CacheService,
+  ) {
     super(userService);
   }
+
+  // Example get data by using cache
+  // @Get('cache')
+  // public findAllWithCache(
+  //   @Paginate() query: PaginateQuery,
+  // ): Promise<Paginated<User>> {
+  //   return this.userService.findAllWithCache(query, this.cacheService);
+  // }
 
   @Post()
   public create(@Body() createUserDto: CreateUserDto) {
