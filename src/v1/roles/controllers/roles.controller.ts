@@ -9,14 +9,14 @@ export class RolesController extends BaseController {
     super(rolesService);
   }
 
-  @Post()
-  public create(@Body() createRoleDto: CreateRoleDto) {
-    return this.rolesService.create(createRoleDto);
-  }
-
   @Get(':id')
   public async findOne(@Param('id') id: number) {
     return await this.rolesService.findOne({ id }, { relations: ['rules'] });
+  }
+
+  @Post()
+  public create(@Body() createRoleDto: CreateRoleDto) {
+    return this.rolesService.create(createRoleDto);
   }
 
   @Patch(':id')

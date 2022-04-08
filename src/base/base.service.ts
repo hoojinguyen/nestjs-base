@@ -65,6 +65,10 @@ export abstract class BaseService {
     return await instance.save();
   }
 
+  public deleteByIds(ids: number[]): Promise<DeleteResult> {
+    return this.repository.delete(ids);
+  }
+
   public delete(id: number): Promise<DeleteResult> {
     return this.repository.delete(id);
   }
