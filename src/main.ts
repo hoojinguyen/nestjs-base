@@ -2,6 +2,7 @@ import { DbExceptionFilter, HttpExceptionFilter } from '@exceptions';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { useContainer } from 'class-validator';
+import helmet from 'helmet';
 import { AppModule } from './app.module';
 import { WinstonProvider } from './utils/providers';
 
@@ -14,7 +15,8 @@ async function bootstrap() {
     credentials: true,
   });
 
-  // app.useLogger(logger);
+  app.use(helmet());
+  app.useLogger(logger);
   app.setGlobalPrefix('/api');
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalFilters(new DbExceptionFilter());
