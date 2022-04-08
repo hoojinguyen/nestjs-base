@@ -2,10 +2,12 @@ import { DbExceptionFilter, HttpExceptionFilter } from '@exceptions';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { useContainer } from 'class-validator';
+import * as compression from 'compression';
+import * as csurf from 'csurf';
+import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
 import { WinstonProvider } from './utils/providers';
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const logger = app.get(WinstonProvider);
@@ -15,8 +17,18 @@ async function bootstrap() {
     credentials: true,
   });
 
+  app.use(csurf());
   app.use(helmet());
+  app.use(compression());
+  app.use(
+    rateLimit({
+      windowMs: 15 * 60 * 1000, // 15 minutes
+      max: 100, // limit each IP to 100 requests per windowMs
+    }),
+  );
+
   app.useLogger(logger);
+
   app.setGlobalPrefix('/api');
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalFilters(new DbExceptionFilter());
