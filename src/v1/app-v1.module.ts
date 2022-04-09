@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppV1Route } from './app-v1.route';
 import { AuthModule } from './auth/auth.module';
+import { ResetPasswordModule } from './reset-password/reset-password.module';
 import { RolesModule } from './roles/roles.module';
 import { RulesModule } from './rules/rules.module';
 import { UsersModule } from './users/users.module';
@@ -12,7 +13,7 @@ import { UsersModule } from './users/users.module';
     UsersModule,
     RulesModule,
     RolesModule,
-    // ResetPasswordModule
+    ResetPasswordModule,
   ],
 })
 export class AppV1Module {

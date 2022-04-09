@@ -35,15 +35,15 @@ async function bootstrap() {
     }),
   );
 
-  app.use(cookieParser());
-  app.use(
-    session({
-      secret: process.env.SESSION_SECRET,
-      resave: false,
-      saveUninitialized: false,
-    }),
-  );
-  app.use(csurf());
+  // app.use(cookieParser());
+  // app.use(
+  //   session({
+  //     secret: process.env.SESSION_SECRET,
+  //     resave: false,
+  //     saveUninitialized: false,
+  //   }),
+  // );
+  // app.use(csurf());
 
   app.setGlobalPrefix(prefix);
   app.useGlobalFilters(new HttpExceptionFilter());
@@ -52,8 +52,6 @@ async function bootstrap() {
 
   // Dependency injection for class-validator
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
-
-  app.use(csurf());
 
   await app
     .listen(port)

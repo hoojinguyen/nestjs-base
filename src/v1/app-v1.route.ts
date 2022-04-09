@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { RouterModule, Routes } from '@nestjs/core';
 import { AuthModule } from './auth/auth.module';
+import { ResetPasswordModule } from './reset-password/reset-password.module';
 import { RolesModule } from './roles/roles.module';
 import { RulesModule } from './rules/rules.module';
 import { UsersModule } from './users/users.module';
@@ -13,7 +14,7 @@ const routes: Routes = [
       { path: 'users', module: UsersModule },
       { path: 'rules', module: RulesModule },
       { path: 'roles', module: RolesModule },
-      //   { path: 'reset-password', module: ResetPasswordModule },
+      { path: 'reset-password', module: ResetPasswordModule },
     ],
   },
 ];
