@@ -1,4 +1,5 @@
 import { BaseController } from '@/src/base/base.controller';
+import { WinstonProvider } from '@/src/utils/providers';
 import { CacheService } from '@/src/utils/services';
 import {
   Body,
@@ -22,6 +23,7 @@ import { UsersService } from '../services';
 @UseInterceptors(InstanceToJsonInterceptor)
 export class UsersController extends BaseController {
   constructor(
+    private readonly logger: WinstonProvider,
     private readonly userService: UsersService,
     private readonly cacheService: CacheService,
   ) {
@@ -31,6 +33,11 @@ export class UsersController extends BaseController {
   @Get()
   public findAll(@Paginate() query: PaginateQuery): Promise<Paginated<User>> {
     return this.userService.findAllWithCache(query, this.cacheService);
+  }
+
+  @Get(':id')
+  public findOne(@Param('id') id: number) {
+    return this.userService.findOneOrFail({ id: id });
   }
 
   @Post()

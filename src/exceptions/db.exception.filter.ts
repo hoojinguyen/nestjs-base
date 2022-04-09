@@ -1,3 +1,4 @@
+import { WinstonProvider } from '@/src/utils/providers';
 import {
   ArgumentsHost,
   Catch,
@@ -9,6 +10,8 @@ import { QueryFailedError } from 'typeorm';
 
 @Catch(QueryFailedError)
 export class DbExceptionFilter implements ExceptionFilter {
+  private logger = new WinstonProvider();
+
   catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
@@ -16,11 +19,13 @@ export class DbExceptionFilter implements ExceptionFilter {
 
     const status = new InternalServerErrorException().getStatus();
 
-    const responseBody: any = {
-      message: `${exception.message}. SQL: ${exception.sql}`,
-      statusName: exception.code,
-      module: request.route.path,
-    };
+    const message = `${exception.message}. SQL: ${exception.sql}`;
+    const module = request.route.path;
+    const statusName = exception.code;
+
+    const responseBody: any = { message, statusName, module };
+
+    this.logger.error(responseBody, message, { module, statusName });
 
     response.status(status).json(responseBody);
   }

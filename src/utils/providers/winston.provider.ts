@@ -22,31 +22,16 @@ export class WinstonProvider implements LoggerService {
   // 格式化输出样式
   private format(info: Logform.TransformableInfo): string {
     const pid = process.pid;
-    const env = process.env.NODE_ENV || 'DEV';
-    const name = process.env.APP_NAME || 'Nest-Server';
-    const version = process.env.APP_VERSION || 'v1';
     const timestamp = info.timestamp;
     const level = info.level.toLocaleUpperCase();
+    const message = info.message;
 
-    let message = info.message;
-
-    if (typeof JSON.parse(message) === 'object') {
-      const parseMes = JSON.parse(message);
-      const { type, trace, error, meta, name } = parseMes;
-      if (type === 'ERROR') {
-        message = `${type} - [${trace}] - ${name}: ${error}`;
-      } else {
-        message = `${type} - [${meta}] - ${trace}`;
-      }
-    }
-
-    const upper = (value: string) => value.toLocaleUpperCase();
     return (
-      `[${upper(version)}/${upper(name)}] ` +
-      `${pid}` +
+      `[Winston] ` +
+      `${pid} ` +
       ' - ' +
       `${timestamp} ` +
-      `[${env}] ` +
+      ' - ' +
       `${level}: ` +
       `${message}`
     );
@@ -60,6 +45,7 @@ export class WinstonProvider implements LoggerService {
         format.timestamp({ format: 'YYYY/MM/DD HH:mm:ss A' }),
         format.printf((message) => this.format(message)),
         format.colorize({ all: true }),
+        format.splat(),
       ),
     });
 

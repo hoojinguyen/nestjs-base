@@ -13,6 +13,12 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  const prefix = 'api';
+  const port = +process.env.PORT || 3001;
+  const host = process.env.HOST || 'localhost';
+  const protocol = process.env.PROTOCOL || 'http';
+  const url = `${protocol}://${host}:${port}/${prefix}`;
+
   app.enableCors({
     origin: '*',
     credentials: true,
@@ -39,7 +45,7 @@ async function bootstrap() {
   );
   app.use(csurf());
 
-  app.setGlobalPrefix('/api');
+  app.setGlobalPrefix(prefix);
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalFilters(new DbExceptionFilter());
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
@@ -49,10 +55,9 @@ async function bootstrap() {
 
   app.use(csurf());
 
-  const port = +process.env.PORT || 3001;
   await app
     .listen(port)
-    .then(() => console.warn(`YOUR APP IS READY ON PORT: ${port}`, 'WELCOME'))
+    .then(() => console.warn(`WELCOME, YOUR API IS READY ON URL: ${url}`))
     .catch((err) => console.error(err, 'Application is crashed'));
 }
 
