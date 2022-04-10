@@ -3,10 +3,10 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { useContainer } from 'class-validator';
 import * as compression from 'compression';
-import * as cookieParser from 'cookie-parser';
-import * as csurf from 'csurf';
+// import * as cookieParser from 'cookie-parser';
+// import * as csurf from 'csurf';
 import rateLimit from 'express-rate-limit';
-import * as session from 'express-session';
+// import * as session from 'express-session';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
 

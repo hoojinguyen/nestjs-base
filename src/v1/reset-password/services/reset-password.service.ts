@@ -1,12 +1,16 @@
 import { MailService } from '@/src/mail/services';
 import { PasswordService, TokenService } from '@/src/utils/services';
+import { InjectQueue } from '@nestjs/bull';
 import { Injectable } from '@nestjs/common';
 import { UsersService } from '@v1/users/services';
+import { Queue } from 'bull';
 import { CreateResetTokenDto, ResetPasswordDto } from '../dtos';
 
 @Injectable()
 export class ResetPasswordService {
   constructor(
+    @InjectQueue('mail')
+    private readonly mailQueue: Queue,
     private readonly usersService: UsersService,
     private readonly passwordService: PasswordService,
     private readonly tokenService: TokenService,
@@ -25,7 +29,7 @@ export class ResetPasswordService {
     user.resetSentAt = new Date();
     await user.save();
 
-    await this.mailService.sendUserResetPassword(user);
+    await this.mailQueue.add('reset-password', user);
 
     return { resetToken: user.resetToken };
   }

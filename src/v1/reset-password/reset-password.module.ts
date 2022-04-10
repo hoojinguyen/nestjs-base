@@ -1,12 +1,13 @@
+import { MailModule } from '@/src/mail/mail.module';
+import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { ResetPasswordController } from './controllers';
 import { UsersModule } from '@v1/users/users.module';
+import { ResetPasswordController } from './controllers';
 import { ResetPasswordService } from './services';
 import { JwtResetStrategy } from './strategies';
-import { MailModule } from '@/src/mail/mail.module';
 
 @Module({
   controllers: [ResetPasswordController],
@@ -24,6 +25,7 @@ import { MailModule } from '@/src/mail/mail.module';
       }),
       inject: [ConfigService],
     }),
+    BullModule.registerQueueAsync({ name: 'mail' }),
   ],
   providers: [ResetPasswordService, JwtResetStrategy],
   exports: [ResetPasswordService],

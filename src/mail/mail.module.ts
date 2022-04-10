@@ -10,15 +10,15 @@ import { MailService } from './services';
     MailerModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         transport: {
-          host: configService.get<string>('mail.mailHost'),
+          host: configService.get<string>('mail.host'),
           secure: false,
           auth: {
-            user: configService.get<string>('mail.mailUser'),
-            pass: configService.get<string>('mail.mailPassword'),
+            user: configService.get<string>('mail.user'),
+            pass: configService.get<string>('mail.password'),
           },
         },
         defaults: {
-          from: `"Nestjs-base" <${configService.get<string>('mail.mailFrom')}>`,
+          from: `"Nestjs-base" <${configService.get<string>('mail.from')}>`,
         },
         template: {
           dir: join(__dirname, '..', '..', 'mail', 'templates'),
