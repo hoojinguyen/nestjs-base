@@ -1,3 +1,4 @@
+import { FileService } from '@/src/upload/services';
 import { BaseService } from '@base/base.service';
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -22,11 +23,17 @@ export class UsersService extends BaseService {
     private readonly usersRepository: Repository<User>,
     private readonly passwordService: PasswordService,
     private readonly cacheService: CacheService,
+    private readonly fileService: FileService,
   ) {
     super(usersRepository);
   }
 
   public async create(createUserDto: CreateUserDto): Promise<User> {
+    const { avatar } = createUserDto;
+    if (avatar) {
+      createUserDto.avatar = await this.fileService.move(avatar);
+    }
+
     const user = this.usersRepository.create({
       ...createUserDto,
       password: await this.passwordService.hashPassword(createUserDto.password),
@@ -49,6 +56,11 @@ export class UsersService extends BaseService {
   }
 
   public async update(id: number, updateUserDto: UpdateUserDto) {
+    const { avatar } = updateUserDto;
+    if (avatar) {
+      updateUserDto.avatar = await this.fileService.move(avatar);
+    }
+
     const user = await this.findOneOrFail({ id });
     await this.mapData(user, updateUserDto);
     return await user.save();

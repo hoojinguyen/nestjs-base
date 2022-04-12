@@ -1,14 +1,20 @@
 import { IsExist } from '@utils/validate-decorators';
-import { IsBoolean, IsEmail, IsNotEmpty } from 'class-validator';
+import {
+  IsBoolean,
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { User } from '../entities';
 
 export class CreateUserDto {
-  public id: number = null;
-
   @IsNotEmpty()
+  @IsString()
   public firstName: string;
 
   @IsNotEmpty()
+  @IsString()
   public lastName: string;
 
   @IsNotEmpty()
@@ -22,11 +28,18 @@ export class CreateUserDto {
   public email: string;
 
   @IsNotEmpty()
+  @IsString()
   public password: string;
 
+  @IsOptional()
+  @IsString()
+  avatar: string;
+
+  @IsOptional()
   @IsBoolean()
   public isActive: boolean;
 
+  @IsOptional()
   @IsBoolean()
   public isDelete: boolean;
 }

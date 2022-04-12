@@ -1,7 +1,9 @@
+import { ConfigService } from '@nestjs/config';
 import { RefreshToken } from '@v1/auth/entities/refresh-token.entity';
 import { Role } from '@v1/roles/entities/role.entity';
 import { Exclude } from 'class-transformer';
 import {
+  AfterLoad,
   BaseEntity,
   Column,
   CreateDateColumn,
@@ -17,6 +19,9 @@ import {
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   public id: number;
+
+  @Column({ nullable: true })
+  avatar: string;
 
   @Column()
   public firstName: string;
@@ -62,4 +67,15 @@ export class User extends BaseEntity {
 
   @DeleteDateColumn({ type: 'timestamp' })
   public deletedAt: Date;
+
+  @AfterLoad()
+  formatImage() {
+    const protocol = process.env.APP_PROTOCOL;
+    const host = process.env.APP_HOST;
+    const port = process.env.APP_PORT;
+    const url = `${protocol}://${host}:${port}`;
+    if (this.avatar) {
+      this.avatar = url + this.avatar;
+    }
+  }
 }

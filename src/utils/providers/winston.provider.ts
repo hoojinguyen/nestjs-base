@@ -1,5 +1,4 @@
 import { Injectable, LoggerService } from '@nestjs/common';
-import { resolve } from 'path';
 import {
   createLogger,
   format,
@@ -38,7 +37,7 @@ export class WinstonProvider implements LoggerService {
   }
 
   private initOptions(): LoggerOptions {
-    const dirname = `${resolve(__dirname, '../../')}/logs`;
+    const dirname = `${process.cwd()}/logs`;
 
     const consoleLogger = new transports.Console({
       format: format.combine(

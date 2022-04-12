@@ -13,10 +13,10 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const prefix = 'api';
-  const port = +process.env.PORT || 3001;
-  const host = process.env.HOST || 'localhost';
-  const protocol = process.env.PROTOCOL || 'http';
+  const prefix = process.env.APP_ROUTE_PREFIX;
+  const port = +process.env.APP_PORT || 3001;
+  const host = process.env.APP_HOST || 'localhost';
+  const protocol = process.env.APP_PROTOCOL || 'http';
   const url = `${protocol}://${host}:${port}/${prefix}`;
 
   app.enableCors({
@@ -48,7 +48,14 @@ async function bootstrap() {
   app.setGlobalPrefix(prefix);
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalFilters(new DbExceptionFilter());
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
 
   // Dependency injection for class-validator
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
