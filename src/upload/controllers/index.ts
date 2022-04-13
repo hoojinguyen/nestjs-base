@@ -1,1 +1,1 @@
-export * from './file.controller';
+export * from './multer.controller';
