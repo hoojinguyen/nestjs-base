@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common';
 import { CacheService } from '@utils/services';
 import { instanceToPlain } from 'class-transformer';
 import { createHash } from 'crypto';
@@ -131,5 +132,21 @@ export abstract class BaseService {
     }
 
     return queryBuilder;
+  }
+
+  protected async uploadImage(fnUpload: any): Promise<string> {
+    try {
+      return await fnUpload;
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
+  }
+
+  protected async deleteImage(fnDel: any): Promise<boolean> {
+    try {
+      return await fnDel;
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 }

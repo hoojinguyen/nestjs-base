@@ -1,8 +1,7 @@
-import { FileService } from '@/src/upload/services';
 import { BaseService } from '@base/base.service';
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CacheService, PasswordService } from '@utils/services';
+import { FileService, PasswordService } from '@utils/services';
 import { instanceToPlain } from 'class-transformer';
 import { FilterOperator } from 'nestjs-paginate';
 import { Repository } from 'typeorm';
@@ -22,23 +21,14 @@ export class UsersService extends BaseService {
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
     private readonly passwordService: PasswordService,
-    private readonly cacheService: CacheService,
     private readonly fileService: FileService,
   ) {
     super(usersRepository);
   }
 
   public async create(createUserDto: CreateUserDto): Promise<User> {
-    const { avatar } = createUserDto;
-    if (avatar) {
-      createUserDto.avatar = await this.fileService.move(avatar);
-    }
-
-    const user = this.usersRepository.create({
-      ...createUserDto,
-      password: await this.passwordService.hashPassword(createUserDto.password),
-    });
-
+    const user = this.usersRepository.create();
+    await this.mapData(user, createUserDto);
     return await user.save();
   }
 
@@ -55,25 +45,29 @@ export class UsersService extends BaseService {
     return user;
   }
 
-  public async update(id: number, updateUserDto: UpdateUserDto) {
-    const { avatar } = updateUserDto;
-    if (avatar) {
-      updateUserDto.avatar = await this.fileService.move(avatar);
-    }
-
+  public async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.findOneOrFail({ id });
     await this.mapData(user, updateUserDto);
     return await user.save();
   }
 
-  protected async mapData(user, dto) {
+  protected async mapData(user: User, dto: any) {
     const data = instanceToPlain(dto);
 
     for (const key in data) {
-      if (key === 'password') {
-        user[key] = await this.passwordService.hashPassword(data[key]);
-      } else {
-        user[key] = data[key];
+      switch (key) {
+        case 'password':
+          user[key] = await this.passwordService.hashPassword(data[key]);
+          break;
+        case 'avatar':
+          if (data[key] && data[key] !== user[key]) {
+            const fnUpload = this.fileService.move(data[key]);
+            user[key] = await this.uploadImage(fnUpload);
+          }
+          break;
+        default:
+          user[key] = data[key];
+          break;
       }
     }
   }
