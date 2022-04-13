@@ -2,6 +2,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { WinstonProvider } from '@src/utils/providers';
 import { join } from 'path';
 import { MailService } from './services';
 
@@ -30,6 +31,7 @@ import { MailService } from './services';
       }),
       inject: [ConfigService],
     }),
+    WinstonProvider,
   ],
   providers: [MailService],
   exports: [MailService],
