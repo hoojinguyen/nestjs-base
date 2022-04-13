@@ -31,7 +31,6 @@ import { MailService } from './services';
       }),
       inject: [ConfigService],
     }),
-    WinstonProvider,
   ],
   providers: [MailService],
   exports: [MailService],
