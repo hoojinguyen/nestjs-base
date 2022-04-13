@@ -6,7 +6,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { RefreshToken } from '@v1/auth/entities';
 import * as redisStore from 'cache-manager-redis-store';
 import { WinstonProvider } from './providers';
-import { CacheService, PasswordService, TokenService } from './services';
+import {
+  CacheService,
+  FileService,
+  PasswordService,
+  TokenService,
+} from './services';
 // -----------------------------------------------------------------------------------------------------
 // Validate decorators uses dependency injection MUST BE ADDED TO providers
 // -----------------------------------------------------------------------------------------------------
@@ -42,6 +47,7 @@ import { IsExistConstraint } from './validate-decorators';
     PasswordService,
     TokenService,
     CacheService,
+    FileService,
     IsExistConstraint,
     WinstonProvider,
   ],
@@ -49,6 +55,7 @@ import { IsExistConstraint } from './validate-decorators';
     PasswordService,
     TokenService,
     CacheService,
+    FileService,
     HttpModule,
     WinstonProvider,
   ],
