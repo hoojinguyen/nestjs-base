@@ -1,7 +1,8 @@
 import { BaseService } from '@base/base.service';
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FileService, PasswordService } from '@utils/services';
+import { FileService, PasswordService, S3Service } from '@utils/services';
 import { instanceToPlain } from 'class-transformer';
 import { FilterOperator } from 'nestjs-paginate';
 import { Repository } from 'typeorm';
@@ -22,6 +23,8 @@ export class UsersService extends BaseService {
     private readonly usersRepository: Repository<User>,
     private readonly passwordService: PasswordService,
     private readonly fileService: FileService,
+    private readonly s3Service: S3Service,
+    private readonly configService: ConfigService,
   ) {
     super(usersRepository);
   }
@@ -61,7 +64,11 @@ export class UsersService extends BaseService {
           break;
         case 'avatar':
           if (data[key] && data[key] !== user[key]) {
-            const fnUpload = this.fileService.move(data[key]);
+            const { serverUpload } = this.configService.get('app');
+            const fnUpload =
+              serverUpload === 'local'
+                ? this.fileService.moveFile(data[key])
+                : this.s3Service.moveFile(data[key]);
             user[key] = await this.uploadImage(fnUpload);
           }
           break;
