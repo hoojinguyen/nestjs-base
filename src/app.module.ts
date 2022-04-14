@@ -1,3 +1,4 @@
+import awsConfig from '@/config/aws.config';
 import appConfig from '@config/app.config';
 import cacheConfig from '@config/cache.config';
 import databaseConfig from '@config/database.config';
@@ -13,7 +14,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UploadModule } from './upload/upload.module';
+import { UploadModule } from './uploads/upload.module';
 import { UtilsModule } from './utils/utils.module';
 import { AppV1Module } from './v1/app-v1.module';
 
@@ -34,6 +35,7 @@ import { AppV1Module } from './v1/app-v1.module';
         cacheConfig,
         queueConfig,
         fileConfig,
+        awsConfig,
       ],
     }),
     TypeOrmModule.forRootAsync({
@@ -56,7 +58,7 @@ import { AppV1Module } from './v1/app-v1.module';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => [
         {
-          rootPath: configService.get<string>('file.rootPath'),
+          rootPath: configService.get<string>('file.path'),
           exclude: configService.get<string[]>('file.exclude'),
         },
       ],
