@@ -21,7 +21,7 @@ export class User extends BaseEntity {
   public id: number;
 
   @Column({ nullable: true })
-  avatar: string;
+  public avatar: string;
 
   @Column()
   public firstName: string;
@@ -70,12 +70,8 @@ export class User extends BaseEntity {
 
   @AfterLoad()
   formatImage() {
-    const protocol = process.env.APP_PROTOCOL;
-    const host = process.env.APP_HOST;
-    const port = process.env.APP_PORT;
-    const url = `${protocol}://${host}:${port}`;
     if (this.avatar) {
-      this.avatar = url + this.avatar;
+      this.avatar = `${process.env.SERVER_UPLOAD_URL}/${this.avatar}`;
     }
   }
 }
