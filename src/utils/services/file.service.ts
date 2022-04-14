@@ -4,14 +4,16 @@ import * as fs from 'fs';
 
 @Injectable()
 export class FileService {
-  private currentDir: string;
-  private newDir: string;
+  private tmpFolder: string;
+  private uploadFolder: string;
+  private rootFolder: string;
   private rootPath: string;
 
   constructor(private readonly config: ConfigService) {
-    this.currentDir = this.config.get<string>('file.dest.tmp');
-    this.newDir = this.config.get<string>('file.dest.uploads');
-    this.rootPath = this.config.get<string>('file.rootPath');
+    this.tmpFolder = this.config.get<string>('file.dest.tmp');
+    this.uploadFolder = this.config.get<string>('file.dest.uploads');
+    this.rootFolder = this.config.get<string>('file.dest.root');
+    this.rootPath = this.config.get<string>('file.path');
   }
 
   createFolder(name: string): Promise<boolean> {
@@ -23,20 +25,29 @@ export class FileService {
     });
   }
 
-  async move(filename: string): Promise<string> {
-    const oldPath = `${this.rootPath}${this.currentDir}/${filename}`;
-    const newPath = `${this.rootPath}${this.newDir}/${filename}`;
+  async moveFile(
+    filePath: string,
+    folderCurrent?: string,
+    folderMove?: string,
+  ): Promise<string> {
+    const fileName = filePath.split('/').slice(-1);
+
+    if (!folderCurrent) folderCurrent = this.tmpFolder;
+    if (!folderMove) folderMove = this.uploadFolder;
+
+    const oldPath = `${this.rootPath}${this.rootFolder}/${folderCurrent}/${fileName}`;
+    const newPath = `${this.rootPath}${this.rootFolder}/${folderMove}/${fileName}`;
 
     return new Promise((resolve, reject) => {
       fs.rename(oldPath, newPath, (err) => {
         if (err) return reject(err);
-        return resolve(`${this.newDir}/${filename}`);
+        return resolve(filePath.replace(folderCurrent, folderMove));
       });
     });
   }
 
-  async delete(path: string, isCatchError = true): Promise<boolean> {
-    const currentPath = `${this.rootPath}/${path}`;
+  async deleteFile(filePath: string, isCatchError = true): Promise<boolean> {
+    const currentPath = `${this.rootPath}/${filePath}`;
     return new Promise((resolve, reject) => {
       fs.unlink(currentPath, (err) => {
         // when delete a file, may be file is not exist, so you can decide care about it or not (depend of isCatchError)
