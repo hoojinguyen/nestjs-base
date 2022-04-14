@@ -16,16 +16,16 @@ export class FileService {
     this.rootPath = this.config.get<string>('file.path');
   }
 
-  createFolder(name: string): Promise<boolean> {
+  public async createFolder(name: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       fs.mkdir(`${this.rootPath}/${name}`, (err) => {
-        if (err) return reject(err);
-        return resolve(true);
+        if (err) reject(err);
+        resolve(true);
       });
     });
   }
 
-  async moveFile(
+  public async moveFile(
     filePath: string,
     folderCurrent?: string,
     folderMove?: string,
@@ -40,19 +40,48 @@ export class FileService {
 
     return new Promise((resolve, reject) => {
       fs.rename(oldPath, newPath, (err) => {
-        if (err) return reject(err);
-        return resolve(filePath.replace(folderCurrent, folderMove));
+        if (err) reject(err);
+        resolve(filePath.replace(folderCurrent, folderMove));
       });
     });
   }
 
-  async deleteFile(filePath: string, isCatchError = true): Promise<boolean> {
+  public async deleteFile(
+    filePath: string,
+    isCatchError = true,
+  ): Promise<boolean> {
     const currentPath = `${this.rootPath}/${filePath}`;
     return new Promise((resolve, reject) => {
       fs.unlink(currentPath, (err) => {
         // when delete a file, may be file is not exist, so you can decide care about it or not (depend of isCatchError)
-        if (err && isCatchError) return reject(err);
-        return resolve(true);
+        if (err && isCatchError) reject(err);
+        resolve(true);
+      });
+    });
+  }
+
+  public async deleteFolder(folder: string) {
+    const path = `${this.rootPath}/${folder}`;
+    const promises: Promise<unknown>[] = [];
+
+    const del = (name: string) => {
+      return new Promise((resolve, reject) => {
+        fs.unlink(`${path}/${name}`, (err) => {
+          if (err) reject(err);
+          resolve(name);
+        });
+      });
+    };
+
+    return new Promise((resolve, reject) => {
+      fs.readdir(path, (err: Error, files: any[]) => {
+        if (err) reject(err);
+
+        files
+          .filter((f) => f !== '.gitkeep')
+          .map((file) => promises.push(del(file)));
+
+        resolve(Promise.all(promises));
       });
     });
   }
