@@ -9,4 +9,5 @@ export default registerAs('app', () => ({
   routePrefix: process.env.APP_ROUTE_PREFIX,
   serverUpload: process.env.SERVER_UPLOAD,
   serverUploadUrl: process.env.SERVER_UPLOAD_URL,
+  webUrl: process.env.WEB_URL,
 }));

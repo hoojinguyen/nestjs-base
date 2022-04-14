@@ -4,7 +4,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RefreshToken } from '@v1/auth/entities';
-import * as redisStore from 'cache-manager-redis-store';
 import { WinstonProvider } from './providers';
 import {
   CacheService,
@@ -25,22 +24,12 @@ import { IsExistConstraint } from './validate-decorators';
     TypeOrmModule.forFeature([RefreshToken]),
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('jwt.accessTokenSecret'),
-        signOptions: {
-          expiresIn: configService.get<string>('jwt.accessTokenExpiresIn'),
-        },
-      }),
+      useFactory: (config: ConfigService) => config.get('jwt'),
       inject: [ConfigService],
     }),
     CacheModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        store: redisStore,
-        host: configService.get<string>('cache.host'),
-        port: configService.get<string>('cache.port'),
-        ttl: configService.get<number>('cache.ttl'),
-      }),
+      useFactory: (config: ConfigService) => config.get('cache'),
       inject: [ConfigService],
     }),
   ],

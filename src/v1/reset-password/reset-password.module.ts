@@ -17,12 +17,7 @@ import { JwtResetStrategy } from './strategies';
     MailModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('jwt.accessTokenSecret'),
-        signOptions: {
-          expiresIn: configService.get<string>('jwt.accessTokenExpiresIn'),
-        },
-      }),
+      useFactory: (config: ConfigService) => config.get('jwt'),
       inject: [ConfigService],
     }),
     BullModule.registerQueueAsync({ name: 'mail' }),

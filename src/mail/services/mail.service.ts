@@ -50,13 +50,11 @@ export class MailService {
   async sendUserResetPassword(job: Job<User>) {
     const user = job.data;
 
-    const webUrl = this.configService.get<string>('web.webUrl');
-    const url = `${webUrl}/api/v1/reset-password/${user.resetToken}`;
+    const { webUrl } = this.configService.get('app');
+    const { resetPasswordTokenExpiresIn } = this.configService.get('token');
 
-    let expiresIn = this.configService.get<string>(
-      'jwt.resetPasswordTokenExpiresIn',
-    );
-    expiresIn = ms(ms(expiresIn), { long: true });
+    const url = `${webUrl}/api/v1/reset-password/${user.resetToken}`;
+    const expiresIn = ms(ms(resetPasswordTokenExpiresIn), { long: true });
 
     await this.mailerService.sendMail({
       to: user.email,

@@ -52,7 +52,7 @@ export class TokenService {
 
   public async createRefreshToken(user: User): Promise<RefreshToken> {
     const expiresIn = ms(
-      this.configService.get<string>('jwt.refreshTokenExpiresIn'),
+      this.configService.get<string>('token.refreshTokenExpiresIn'),
     );
 
     const expiration = new Date();
@@ -73,8 +73,8 @@ export class TokenService {
 
   public generateRefreshToken(token: RefreshToken) {
     const options = {
-      expiresIn: this.configService.get<string>('jwt.refreshTokenExpiresIn'),
-      secret: this.configService.get<string>('jwt.refreshTokenSecret'),
+      expiresIn: this.configService.get<string>('token.refreshTokenExpiresIn'),
+      secret: this.configService.get<string>('token.refreshTokenSecret'),
     };
 
     return this.jwtService.sign({ ...token }, options);
@@ -83,7 +83,7 @@ export class TokenService {
   public generateResetPasswordToken(user: User) {
     const options = {
       expiresIn: this.configService.get<string>(
-        'jwt.resetPasswordTokenExpiresIn',
+        'token.resetPasswordTokenExpiresIn',
       ),
       secret: user.password,
     };
