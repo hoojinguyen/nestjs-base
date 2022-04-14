@@ -71,10 +71,10 @@ export class S3Service {
     return await Promise.all(promises);
   }
 
-  public deleteFolder(folderName: string): Promise<any> {
+  public deleteFolder(folder: string): Promise<any> {
     const params = {
       Bucket: this.bucket,
-      Prefix: folderName,
+      Prefix: folder,
     };
 
     return new Promise((resolve, reject) => {
@@ -85,7 +85,7 @@ export class S3Service {
           { Bucket: this.bucket, Delete: { Objects: objects, Quiet: true } },
           (error: Error, val: any) => {
             if (error) reject(error);
-            resolve(val);
+            if (!error) resolve(val);
           },
         );
       });
@@ -140,14 +140,14 @@ export class S3Service {
   }
 
   public getFolder(folder: string, delimiter?: string): Promise<any> {
-    const bucketParams = {
+    const params = {
       Bucket: this.bucket,
       Prefix: folder,
       Delimiter: delimiter || '/',
     };
 
     return new Promise((resolve, reject) => {
-      return this.s3.listObjects(bucketParams, (err: Error, data: any) => {
+      return this.s3.listObjects(params, (err: Error, data: any) => {
         if (err) reject(err);
         resolve(data);
       });
