@@ -1,10 +1,11 @@
 import { registerAs } from '@nestjs/config';
 
 export default registerAs('file', () => ({
-  rootPath: './public',
+  path: './',
   dest: {
-    tmp: '/tmp',
-    uploads: '/uploads',
+    root: 'public',
+    tmp: 'tmp',
+    uploads: 'uploads',
   },
   exclude: ['/api*'],
 }));

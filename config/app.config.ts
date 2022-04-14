@@ -7,4 +7,6 @@ export default registerAs('app', () => ({
   name: process.env.APP_NAME,
   version: process.env.APP_VERSION,
   routePrefix: process.env.APP_ROUTE_PREFIX,
+  serverUpload: process.env.SERVER_UPLOAD,
+  serverUploadUrl: process.env.SERVER_UPLOAD_URL,
 }));
