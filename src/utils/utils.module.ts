@@ -10,6 +10,7 @@ import {
   CacheService,
   FileService,
   PasswordService,
+  S3Service,
   TokenService,
 } from './services';
 // -----------------------------------------------------------------------------------------------------
@@ -48,6 +49,7 @@ import { IsExistConstraint } from './validate-decorators';
     TokenService,
     CacheService,
     FileService,
+    S3Service,
     IsExistConstraint,
     WinstonProvider,
   ],
@@ -56,6 +58,7 @@ import { IsExistConstraint } from './validate-decorators';
     TokenService,
     CacheService,
     FileService,
+    S3Service,
     HttpModule,
     WinstonProvider,
   ],
