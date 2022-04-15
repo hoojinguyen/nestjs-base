@@ -32,8 +32,7 @@ export class UsersController extends BaseController {
 
   @Get()
   public findAll(@Paginate() query: PaginateQuery): Promise<Paginated<User>> {
-    return this.userService.findAll(query);
-    // return this.userService.findAllWithCache(query, this.cacheService);
+    return this.userService.findAll(query, true);
   }
 
   @Get(':id')

@@ -45,8 +45,15 @@ export abstract class BaseService {
     return result;
   }
 
-  public async findAll(query: PaginateQuery): Promise<Paginated<any>> {
-    const queryBuilder = this.prepareQuery(query).cache(true);
+  public async findAll(
+    query: PaginateQuery,
+    cache?: boolean,
+  ): Promise<Paginated<any>> {
+    const queryBuilder = this.prepareQuery(query);
+
+    if (cache) {
+      queryBuilder.cache(true);
+    }
 
     return paginate(query, queryBuilder, {
       sortableColumns: this.sortableColumns,

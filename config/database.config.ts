@@ -26,12 +26,31 @@ export default registerAs(
       },
     },
     cache: {
-      type: 'redis',
-      duration: 6000,
+      type: (process.env.CACHE_DB_TYPE as any) || 'redis',
+      duration: +process.env.CACHE_DB_DURATION || 5000, // 5s
       options: {
-        host: 'localhost',
-        port: 6379,
+        host: process.env.CACHE_DB_HOST || 'local',
+        port: +process.env.CACHE_DB_PORT || 6379,
       },
+      ignoreErrors: true,
     },
+    // replication: {
+    //   master: {
+    //     host: process.env.DB_MASTER_HOST,
+    //     port: +process.env.DB_MASTER_PORT,
+    //     username: process.env.DB_MASTER_USERNAME,
+    //     password: process.env.DB_MASTER_PASSWORD,
+    //     database: process.env.DB_MASTER_DATABASE,
+    //   },
+    //   slaves: [
+    //     {
+    //       host: process.env.DB_SLAVE_HOST,
+    //       port: +process.env.DB_SLAVE_PORT,
+    //       username: process.env.DB_SLAVE_USERNAME,
+    //       password: process.env.DB_SLAVE_PASSWORD,
+    //       database: process.env.DB_SLAVE_DATABASE,
+    //     },
+    //   ],
+    // },
   }),
 );
