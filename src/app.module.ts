@@ -15,6 +15,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { HealthModule } from './health/health.module';
 import { TasksModule } from './tasks/tasks.module';
 import { UploadModule } from './upload/upload.module';
 import { UtilsModule } from './utils/utils.module';
@@ -26,6 +27,7 @@ import { AppV1Module } from './v1/app-v1.module';
     UtilsModule,
     UploadModule,
     TasksModule,
+    HealthModule,
     ConfigModule.forRoot({
       isGlobal: true,
       cache: true,
