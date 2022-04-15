@@ -6,7 +6,7 @@ services:
     image: mysql:8.0.26
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: nestjsbase
+      MYSQL_ROOT_PASSWORD: 123qwe
       MYSQL_DATABASE: nestjsbase
     ports:
       - 3306:3306
