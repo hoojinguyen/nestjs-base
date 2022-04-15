@@ -32,8 +32,8 @@ async function bootstrap() {
 
   app.use(
     rateLimit({
-      windowMs: 1 * 60 * 1000, // 1 minutes
-      max: 10, // limit each IP to 100 requests per windowMs
+      windowMs: +process.env.RATE_LIMIT_TIME,
+      max: +process.env.RATE_LIMIT_MAX,
     }),
   );
 
