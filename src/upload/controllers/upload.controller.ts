@@ -9,6 +9,7 @@ import { ConfigService } from '@nestjs/config';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { randomUUID } from 'crypto';
 import { diskStorage } from 'multer';
+import { IUploadResponse } from '../interfaces';
 
 @Controller('upload')
 export class UploadController {
@@ -32,7 +33,9 @@ export class UploadController {
       },
     }),
   )
-  uploadFilesToLocal(@UploadedFiles() files: Array<Express.Multer.File>) {
+  uploadFilesToLocal(
+    @UploadedFiles() files: Array<Express.Multer.File>,
+  ): IUploadResponse | IUploadResponse[] {
     const data = files.map((file) => {
       const { dest } = this.configService.get('file');
       const folder = `${dest.root}/${dest.tmp}`;
@@ -67,7 +70,9 @@ export class UploadController {
 
   @Post('s3')
   @UseInterceptors(AnyFilesInterceptor())
-  async uploadFilesToS3(@UploadedFiles() files: Array<Express.Multer.File>) {
+  async uploadFilesToS3(
+    @UploadedFiles() files: Array<Express.Multer.File>,
+  ): Promise<IUploadResponse | IUploadResponse[]> {
     const { tmpFolder } = this.configService.get('aws.s3');
 
     let data = await this.s3Service.uploadMany(files, tmpFolder);
