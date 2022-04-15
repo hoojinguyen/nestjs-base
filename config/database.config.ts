@@ -25,5 +25,13 @@ export default registerAs(
         rejectUnauthorized: false,
       },
     },
+    cache: {
+      type: 'redis',
+      duration: 6000,
+      options: {
+        host: 'localhost',
+        port: 6379,
+      },
+    },
   }),
 );
