@@ -8,7 +8,6 @@ import {
   transports,
 } from 'winston';
 import 'winston-daily-rotate-file';
-import { DailyRotateFile } from 'winston/lib/winston/transports';
 
 @Injectable()
 export class WinstonProvider implements LoggerService {
@@ -18,7 +17,6 @@ export class WinstonProvider implements LoggerService {
     this.instance = createLogger(this.initOptions());
   }
 
-  // 格式化输出样式
   private format(info: Logform.TransformableInfo): string {
     const pid = process.pid;
     const timestamp = info.timestamp;
@@ -62,7 +60,7 @@ export class WinstonProvider implements LoggerService {
     //   ),
     // });
 
-    const stderrLogger = new DailyRotateFile({
+    const stderrLogger = new transports.DailyRotateFile({
       dirname,
       level: 'error',
       filename: '%DATE%-stderr.log',
