@@ -2,6 +2,7 @@
 /dist
 /node_modules
 /mysqldata
+/production
 
 # Logs
 logs
@@ -35,5 +36,12 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# Public
-public
+# env file
+.env
+.env.development
+
+# public
+public/tmp/*
+!public/tmp/.gitkeep
+public/uploads/*
+!public/uploads/.gitkeep
