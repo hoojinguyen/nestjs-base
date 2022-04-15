@@ -6,6 +6,7 @@ import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule';
 import { CronJob } from 'cron';
 import * as moment from 'moment';
 import { ExceptionsResponse } from '../exceptions';
+import { IJobResponse } from '../interfaces';
 
 @Injectable()
 export class TasksService {
@@ -17,7 +18,7 @@ export class TasksService {
     private readonly s3Service: S3Service,
   ) {}
 
-  public findAll(): any[] {
+  public findAll(): IJobResponse[] {
     const jobs = this.schedulerRegistry.getCronJobs();
     const data = [];
 
@@ -35,7 +36,7 @@ export class TasksService {
     return data;
   }
 
-  public findOneByName(name: string): any {
+  public findOneByName(name: string): IJobResponse {
     try {
       const job = this.schedulerRegistry.getCronJob(name);
       const lastDate = job.lastDate();
@@ -53,7 +54,11 @@ export class TasksService {
     }
   }
 
-  public addCronJob(name: string, time: string, fnExecute: () => void): any {
+  public addCronJob(
+    name: string,
+    time: string,
+    fnExecute: () => void,
+  ): IJobResponse {
     const job = new CronJob(time, fnExecute);
 
     this.schedulerRegistry.addCronJob(name, job);
@@ -86,7 +91,7 @@ export class TasksService {
     }
   }
 
-  public deleteJob(name: string) {
+  public deleteJob(name: string): boolean {
     try {
       const job = this.schedulerRegistry.getCronJob(name);
 
@@ -103,8 +108,9 @@ export class TasksService {
 
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT, {
     name: 'deleteUploadTempFolder',
+    timeZone: 'Asia/Ho_Chi_Minh',
   })
-  async deleteUploadTempFolder() {
+  async deleteUploadTempFolder(): Promise<void> {
     const { serverUpload } = this.configService.get('app');
     const date = moment().format('dddd, YYYY/MM/DD, HH:mm:ss A');
 
