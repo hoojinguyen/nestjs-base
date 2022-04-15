@@ -1,10 +1,10 @@
-import { WinstonProvider } from '@/src/utils/providers';
 import {
   ArgumentsHost,
   Catch,
   ExceptionFilter,
   InternalServerErrorException,
 } from '@nestjs/common';
+import { WinstonProvider } from '@utils/providers';
 import { Request, Response } from 'express';
 import { QueryFailedError } from 'typeorm';
 
@@ -23,10 +23,16 @@ export class DbExceptionFilter implements ExceptionFilter {
     const module = request.route.path;
     const statusName = exception.code;
 
-    const responseBody: any = { message, statusName, module };
+    const body: any = {
+      message,
+      statusName,
+      module,
+      timestamp: new Date().toISOString(),
+      path: request.path,
+    };
 
-    this.logger.error(responseBody, message, { module, statusName });
+    this.logger.error(body, message, { module, statusName });
 
-    response.status(status).json(responseBody);
+    response.status(status).json(body);
   }
 }

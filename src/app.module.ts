@@ -1,6 +1,7 @@
 import awsConfig from '@/config/aws.config';
 import serverStaticConfig from '@/config/server-static.config';
 import tokenConfig from '@/config/token.config';
+import { DbExceptionFilter, HttpExceptionFilter } from '@common/exceptions';
 import appConfig from '@config/app.config';
 import cacheConfig from '@config/cache.config';
 import databaseConfig from '@config/database.config';
@@ -8,7 +9,6 @@ import fileConfig from '@config/file.config';
 import jwtConfig from '@config/jwt.config';
 import mailConfig from '@config/mail.config';
 import queueConfig from '@config/queue.config';
-import { DbExceptionFilter, HttpExceptionFilter } from '@exceptions';
 import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';

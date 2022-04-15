@@ -2,7 +2,7 @@
 // import * as csurf from 'csurf';
 // import * as session from 'express-session';
 
-import { DbExceptionFilter, HttpExceptionFilter } from '@exceptions';
+import { DbExceptionFilter, HttpExceptionFilter } from '@common/exceptions';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { useContainer } from 'class-validator';
@@ -10,6 +10,7 @@ import * as compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
+import { LoggingInterceptor } from './common/interceptors';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -36,6 +37,7 @@ async function bootstrap() {
     }),
   );
 
+  // Secure
   // app.use(cookieParser());
   // app.use(
   //   session({
@@ -49,6 +51,9 @@ async function bootstrap() {
   app.setGlobalPrefix(prefix);
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalFilters(new DbExceptionFilter());
+
+  app.useGlobalInterceptors(new LoggingInterceptor());
+  // app.useGlobalInterceptors(new ResponseInterceptor());
 
   app.useGlobalPipes(
     new ValidationPipe({

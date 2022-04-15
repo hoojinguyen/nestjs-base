@@ -26,7 +26,13 @@ export class HttpExceptionFilter implements ExceptionFilter {
       ? responseBody?.message
       : [responseBody?.message];
 
-    const body: any = { message, statusName, module };
+    const body: any = {
+      message,
+      statusName,
+      module,
+      timestamp: new Date().toISOString(),
+      path: request.path,
+    };
 
     this.logger.error(body, message, { module, statusName });
 

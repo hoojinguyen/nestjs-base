@@ -28,8 +28,8 @@
       "@base/*": ["src/base/*"],
       "@utils": ["src/utils/"],
       "@utils/*": ["src/utils/*"],
-      "@exceptions": ["src/exceptions/"],
-      "@exceptions/*": ["src/exceptions/*"],
+      "@common": ["src/common/"],
+      "@common/*": ["src/common/*"],
       "@config": ["config"],
       "@config/*": ["config/*"]
     }
