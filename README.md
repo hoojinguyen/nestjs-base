@@ -45,7 +45,7 @@ To start developing the project please check if you have these tools installed o
 git clone https://github.com/yantee98/nestjs-base
 ```
 
-2. Move into microservice-template
+2. Move into project
 
 ```sh
 cd nestjs-base
