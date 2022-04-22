@@ -1,4 +1,3 @@
-import { ConfigService } from '@nestjs/config';
 import { RefreshToken } from '@v1/auth/entities/refresh-token.entity';
 import { Role } from '@v1/roles/entities/role.entity';
 import { Exclude } from 'class-transformer';
