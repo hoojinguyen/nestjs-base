@@ -2,7 +2,6 @@ import { BadRequestException } from '@nestjs/common';
 import { CacheService } from '@utils/services';
 import { instanceToPlain } from 'class-transformer';
 import { createHash } from 'crypto';
-import { truncate } from 'fs';
 import * as isEmptyObject from 'is-empty-obj';
 import { paginate, Paginated, PaginateQuery } from 'nestjs-paginate';
 import { DeleteResult, Repository } from 'typeorm';
