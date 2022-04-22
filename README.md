@@ -97,11 +97,16 @@ docker-compose -f docker-compose.debug.yml up -d # debug env
 # sh run.sh down-dev || sh run.sh down-debug
 ```
 
-## Todos
+## Todo
 
-- [x] Write the press release
-- [ ] Update the website
-- [ ] Contact the media
+- [ ] Write API document with Swagger
+- [ ] Write units tests for every module
+- [ ] Switch the way authorization from ACL to RBAC
+- [ ] Switch Message queues from bull to RabbitMQ or Kafka
+- [ ] Create migration and seeding
+- [ ] Multiple databases
+- [ ] CI/CD
+- [ ] Deployment to product
 
 ## License
 
