@@ -33,7 +33,7 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsString()
-  avatar: string;
+  public avatar: string;
 
   @IsOptional()
   @IsBoolean()
