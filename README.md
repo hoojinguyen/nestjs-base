@@ -42,7 +42,7 @@ To start developing the project please check if you have these tools installed o
 1. Clone the repo
 
 ```sh
-git clone https://github.com/yantee98/nestjs-base
+git clone https://github.com/hoojinguyen/nestjs-base
 ```
 
 2. Move into project
